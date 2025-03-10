@@ -1,64 +1,79 @@
 // app/details/[id].js
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+
+import React, {
+  useState,
+  useEffect
+} from 'react'; // Importa React y los hooks useState y useEffect.
+
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions } from 'react-native'; // Importa componentes y módulos de React Native.
+
+import {
+  useLocalSearchParams
+} from 'expo-router'; // Importa el hook useLocalSearchParams de expo-router.
 
 const Details = () => {
-  const { id, imageUrl } = useLocalSearchParams(); // Get the `id` and `imageUrl` from the URL
-  const [imageDetails, setImageDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { id, imageUrl } = useLocalSearchParams();          // Obtiene el 'id' y 'imageUrl' de los parámetros de la URL.
+  const [imageDetails, setImageDetails] = useState(null);   // Estado para almacenar los detalles de la imagen.
+  const [loading, setLoading] = useState(true);             // Estado para controlar la carga de los detalles de la imagen.
 
   useEffect(() => {
+    // Función asíncrona para obtener los detalles de la imagen.
     const fetchImageDetails = async () => {
       try {
-        // Fetch metadata for the image using the `id`
+        // Realiza una petición a la API de Picsum para obtener los metadatos de la imagen usando el 'id'.
         const response = await fetch(`https://picsum.photos/id/${id}/info`);
         if (!response.ok) {
-          throw new Error('Failed to fetch image details');
+          throw new Error('Failed to fetch image details');     // Lanza un error si la respuesta no es exitosa.
         }
-        const data = await response.json();
-        setImageDetails(data);
+        const data = await response.json(); // Convierte la respuesta a JSON.
+        setImageDetails(data);              // Actualiza el estado con los detalles de la imagen.
       } catch (error) {
-        console.error('Error fetching image details:', error);
+        console.error('Error fetching image details:', error);  // Maneja los errores de la petición.
       } finally {
-        setLoading(false);
+        setLoading(false);    // Establece la carga como falsa, independientemente del resultado.
       }
     };
 
-    fetchImageDetails();
-  }, [id]);
+    fetchImageDetails();      // Llama a la función para obtener los detalles de la imagen.
+  }, [id]);                   // Se ejecuta cuando el 'id' cambia.
 
-  if (loading) {
+  if (loading) {              // Si 'loading' es verdadero (la carga está en progreso).
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+      <View style={styles.loadingContainer}>                {/* Muestra un contenedor de carga. */}
+        <ActivityIndicator size="large" color="#0000ff" />  {/* Muestra un indicador de carga. */}
       </View>
     );
   }
 
-  if (!imageDetails) {
+  if (!imageDetails) { // Si 'imageDetails' es nulo o indefinido (no se encontraron detalles de la imagen).
     return (
-      <View style={styles.container}>
-        <Text>No details found for this image.</Text>
+      <View style={styles.container}>                   {/* Muestra un mensaje de error. */}
+        <Text>No details found for this image.</Text>   {/* Texto del mensaje de error. */}
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container}> {/* Contenedor principal de la pantalla de detalles. */}
       {/* Image Container */}
-      <View style={styles.imageContainer}>
+      <View style={styles.imageContainer}> {/* Contenedor de la imagen y metadatos. */} 
         <Image
-          source={{ uri: imageUrl || imageDetails.download_url }} // Use the passed `imageUrl` or fallback to the API URL
-          style={styles.image}
+          source={{ uri: imageUrl || imageDetails.download_url }} // Usa 'imageUrl' pasado o la URL de la API como fuente de la imagen.
+          style={styles.image} // Aplica estilos a la imagen.
         />
         {/* Metadata Overlay */}
         <View style={styles.metadataOverlay}>
           <Text style={styles.metadataText}>Author: {imageDetails.author}</Text>
           <Text style={styles.metadataText}>Width: {imageDetails.width}</Text>
           <Text style={styles.metadataText}>Height: {imageDetails.height}</Text>
-          {/*<Text style={styles.metadataText}>ID: {imageDetails.id}</Text>*/}
-          {/*<Text style={styles.metadataText}>ID: {id}</Text>*/}
+          {/*<Text style={styles.metadataText}>ID: {imageDetails.id}</Text>*/} {/* Comentado: Muestra el ID de la imagen (de la API). */}
+          {/*<Text style={styles.metadataText}>ID: {id}</Text>*/} {/* Comentado: Muestra el ID de la imagen (de los parámetros). */}
           <Text style={styles.metadataText}> {imageUrl || imageDetails.download_url}</Text>
         </View>
       </View>
@@ -66,50 +81,51 @@ const Details = () => {
   );
 };
 
-const { width } = Dimensions.get('window'); // Get the screen width
+const { width } = Dimensions.get('window'); // Obtiene el ancho de la pantalla.
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    flex: 1,                        // El contenedor ocupa todo el espacio disponible.
+    alignItems: 'center',           // Centra los elementos horizontalmente.
+    justifyContent: 'center',       // Centra los elementos verticalmente.
+    padding: 20,                    // Añade padding al contenedor.
   },
   imageContainer: {
-    position: 'relative', // Needed for absolute positioning of the overlay
-    width: width * 0.85, // 90% of the screen width
-    height: width * 0.85, // Make it a square (or adjust height as needed)
-    borderRadius: 10, // Optional: Add rounded corners
-    overflow: 'hidden', // Ensure the image and overlay stay within the container
+    position: 'relative',           // Necesario para posicionar la superposición absolutamente.
+    width: width * 0.85,            // 85% del ancho de la pantalla.
+    height: width * 0.85,           // Hace que el contenedor sea cuadrado.
+    borderRadius: 10,               // Opcional: añade esquinas redondeadas.
+    overflow: 'hidden',             // Asegura que la imagen y la superposición permanezcan dentro del contenedor.
   },
   image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover', // Ensure the image covers the entire space
+    width: '100%',                  // La imagen ocupa todo el ancho del contenedor.
+    height: '100%',                 // La imagen ocupa todo el alto del contenedor.
+    resizeMode: 'cover',            // Asegura que la imagen cubra todo el espacio.
   },
   metadataOverlay: {
-    position: 'absolute', // Position the overlay absolutely
-    bottom: 0, // Place the overlay at the bottom of the image
-    left: "62%",
+    position: 'absolute',           // Posiciona la superposición absolutamente.
+    bottom: 0,                      // Coloca la superposición en la parte inferior de la imagen.
+    left: "62%",                    // Posiciona la superposición horizontalmente.
     right: 1,
-    borderTopLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
-    paddingRight: 10,
-    paddingTop: 10,
-    paddingBottom: 5,
+    borderTopLeftRadius: 10,        // Borde redondeado en la esquina superior izquierda del elemento.
+    borderBottomRightRadius: 10,    // Borde redondeado en la esquina inferior derecha del elemento.
+    // Fondo negro semitransparente.
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingRight: 10,               // Margen interno del lado derecho del elemento.
+    paddingTop: 10,                 // Margen interno de la parte superior del elemento.
+    paddingBottom: 5,               // Margen interno de la parte inferior del elemento.
   },
   metadataText: {
-    color: 'white', // White text for contrast
-    fontSize: 12,
-    marginBottom: 3, // Space between text lines
-    textAlign: "right",
+    color: 'white',                 // Texto blanco para contraste.
+    fontSize: 12,                   // Tamaño de la fuente.
+    marginBottom: 3,                // Espacio entre líneas de texto.
+    textAlign: "right",             // Alinea el texto a la derecha.
   },
   loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,                        // El contenedor ocupa todo el espacio disponible.
+    justifyContent: 'center',       // Centra los elementos verticalmente.
+    alignItems: 'center',           // Centra los elementos horizontalmente.
   },
 });
 
-export default Details;
+export default Details; // Exporta el componente Details para ser usado en otras partes de la aplicación.

@@ -28,44 +28,44 @@
  */
 
 
-import { StatusBar } from 'react-native';
-import { Stack } from 'expo-router';
+import { StatusBar } from 'react-native'; // Importa el componente StatusBar para personalizar la barra de estado.
+import { Stack } from 'expo-router';      // Importa el componente Stack para la navegación basada en pila.
 
 const RootLayout = () => {
   return (
     <>
       {/* Status Bar */}
       <StatusBar
-        barStyle="dark-content" // Set the status bar text color (dark-content or light-content)
-        backgroundColor="transparent" // Set the background color (Android only)
-        translucent={true} // Make the status bar translucent (Android only)
+        barStyle="dark-content"         // Establece el color del texto de la barra de estado.
+        backgroundColor="transparent"   // Color de fondo de la barra de estado (solo Android).
+        translucent={true}              // Barra de estado translúcida (solo Android).
       />
       {/* Stack Navigator */}
       <Stack>
         {/* Home Screen */}
         <Stack.Screen
-          name="index"  // Home screen route
+          name="index"                    // Define la ruta de la pantalla de inicio.
           options={{
-            headerTitle: 'Home', // Header title for the home screen
+            headerTitle: 'Home',          // Título del encabezado de la pantalla de inicio a "Home".
             headerStyle: {
-              backgroundColor: '#f0f0f0', // Header background color
+              backgroundColor: '#f0f0f0', // Establece el color de fondo del encabezado a '#f0f0f0'.
             },
             headerTitleStyle: {
-              fontWeight: 'bold', // Header title style
+              fontWeight: 'bold',         // Establece el estilo del título del encabezado a negrita.
             },
           }}
         />
         {/* Details Screen */}
         <Stack.Screen
-          name="details/[id]" // Details screen route
+          name="details/[id]"             // Define la ruta de la pantalla de detalles.
           options={{
-            headerTitle: 'Details', // Header title for the details screen
-            headerBackTitle: 'Back', // Back button text
+            headerTitle: 'Details',       // Título del encabezado de la pantalla de detalles a "Details".
+            headerBackTitle: 'Back',      // Establece el texto del botón de retroceso a "Back".
             headerStyle: {
-              backgroundColor: '#f0f0f0', // Header background color
+              backgroundColor: '#f0f0f0', // Establece el color de fondo del encabezado a '#f0f0f0'.
             },
             headerTitleStyle: {
-              fontWeight: 'bold', // Header title style
+              fontWeight: 'bold',         // Establece el estilo del título del encabezado a negrita.
             },
           }}
         />
@@ -74,4 +74,5 @@ const RootLayout = () => {
   );
 };
 
+ // Exporta RootLayout como exportación predeterminada para que pueda ser importado en otros archivos.
 export default RootLayout;

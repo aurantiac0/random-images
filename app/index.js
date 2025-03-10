@@ -1,4 +1,11 @@
 // app/index.js
+
+/*
+ *  @author Jose Naranjo
+ *  @date 3-10-2025
+ */
+
+
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, Image, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router'; // Import the router

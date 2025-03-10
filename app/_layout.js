@@ -1,74 +1,31 @@
 /*
-
-import { Slot, useRouter, useSegments } from 'expo-router';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-
-export default function Layout() {
-  const router = useRouter();
-  const segments = useSegments(); // Obtener los segmentos de la ruta actual
-
-  // Determinar el título y los botones del header según la ruta
-  let headerTitle = 'App';
-  let showBackButton = false;
-
-  if (segments[0] === 'details') {
-    headerTitle = 'Details';
-    showBackButton = true;
-  } else if (segments.length === 0) {
-    headerTitle = 'Home';
-  }
-
-  return (
-    <View style={styles.container}>
-
-      <View style={styles.header}>
-
-        {showBackButton && (
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-        )}
-
-        <Text style={styles.headerTitle}>{headerTitle}</Text>
-      </View>
-
-
-      <View style={styles.content}>
-        <Slot /> 
-      </View>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f0f0f0',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  backButton: {
-    marginRight: 16,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: '#007bff',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  content: {
-    flex: 1,
-  },
-});
-
-*/
+ *  CREAR UNA APLICACION EN REACT NATIVE CON EXPO
+ *
+ *  Requisitos:
+ *  1. Pantalla Principal
+ *      a.  Mostrar una cuadrícula de imágenes en dos columnas.
+ *      b.  Cargar más imágenes automáticamente cuando el usuario se
+ *          desplace hacia abajo (desplazamiento infinito).
+ *      c.  Cada imagen debe ser un elemento táctil que redirija a una
+ *          pantalla de detalles.
+ *  2. Pantalla de Detalles
+ *      a.  Mostrar la imagen seleccionada en el centro de la pantalla.
+ *      b.  Mostrar información adicional (Ej: autor, ancho y alto).
+ *      c.  Implementar navegación entre la pantalla principal y la
+ *          pantalla de detalles.
+ *  3. API
+ *      a.  Emplear la API de generación de imágenes aleatoria de
+ *          Picsum.
+ *  4. Estilos
+ *      a.  Aplicar estilos para que la aplicación sea responsive.
+ *
+ *  Dependencias:
+ *  - React
+ *  - React Native
+ *
+ *  @author Jose Naranjo
+ *  @date 3-10-2025
+ */
 
 
 import { StatusBar } from 'react-native';
